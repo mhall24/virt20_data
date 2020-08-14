@@ -97,7 +97,8 @@ The data files are organized in 5 sub-directories, each described below.
       skipping an input queue if empty.
     - Capacity prioritization scheduler - This always gets the next element
       from the most full queue.  This is work-conserving.
-  - VHDL files implementing the scheduling algorithms are in the hdl folder.
+  - VHDL files implementing the scheduling algorithms are in the c_slow_sched_hdl folder.
+  - COE files used in Vivado for initializing input data values in a ROM for testing are in the data_set_coe_files folder.
   - A write-up of the logic simulation is in Final Write-Up.pdf.
   - The data set results are described below under
     alternate_scheduling_algorithms.
