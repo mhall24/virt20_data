@@ -31,7 +31,7 @@ General Information
       mhall24@wustl.edu
 
    Co-Author:
-      Neal E. Olson
+      Neil E. Olson
       Dept. of Electrical and Systems Engineering
       McKelvey School of Engineering
       Washington University in St. Louis
