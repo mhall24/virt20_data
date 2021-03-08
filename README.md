@@ -1,9 +1,14 @@
 # README for Research Data
 
-README - generated 20200814 by Michael J. Hall and Roger D. Chamberlain
+README - generated 20210304 by Michael J. Hall and Roger D. Chamberlain
 
-This document describes the data set associated with a manuscript under
-submission. The manuscript extends the conference paper:
+This document describes the data set associated with the journal paper:
+
+Michael J. Hall, Neil E. Olson, and Roger D. Chamberlain, "Utilizing
+Virtualized Hardware Logic Computations to Benefit Multi-User Performance,"
+Electronics, 2021.
+
+The manuscript extends the conference paper:
 
 Michael J. Hall and Roger D. Chamberlain, "Using M/G/1 Queueing Models with
 Vacations to Analyze Virtualized Logic Computations," in Proc. of 33rd
@@ -50,7 +55,11 @@ Sharing/Access Information
 
 1. License - The data set is in the public domain.
 
-2. Publication - the journal article is under review.
+2. Publication - the journal article is as follows:
+
+Michael J. Hall, Neil E. Olson, and Roger D. Chamberlain, "Utilizing
+Virtualized Hardware Logic Computations to Benefit Multi-User Performance,"
+Electronics, 2021.
 
 3. Links to other locations - none.
 
