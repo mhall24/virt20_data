@@ -1,12 +1,12 @@
 # README for Research Data
 
-README - generated 20210304 by Michael J. Hall and Roger D. Chamberlain
+README - generated 20210313 by Michael J. Hall and Roger D. Chamberlain
 
 This document describes the data set associated with the journal paper:
 
 Michael J. Hall, Neil E. Olson, and Roger D. Chamberlain, "Utilizing
 Virtualized Hardware Logic Computations to Benefit Multi-User Performance,"
-Electronics, 2021.
+Electronics, 10(6):665, 2021. DOI: 10.3390/electronics10060665
 
 The manuscript extends the conference paper:
 
@@ -87,6 +87,9 @@ The data files are organized in 5 sub-directories, each described below.
   - This code generates 10,000 random substreams using the MT19937 random
     number generator algorithm.
   - Run "make" to compile and run the program.
+    - This compiles using GCC on Linux.
+    - It depends on the Boost C++ library.
+      - Update the CPPFLAGS in the Makefile to the correct location of Boost.
   - These data files will be used by the queueing simulation in
     virt_queueing_simulation.
 
@@ -97,7 +100,25 @@ The data files are organized in 5 sub-directories, each described below.
   - The virtualized hardware queueing model is in virt_queueing_model.py.
   - The virtualized hardware queueing simulation is in
     virt_queueing_simulation.py.
-  - Run the simulation with run_experiments.py.
+  - A batch of simulations is run in parallel with run_experiments.py.
+    - The following experimental parameters are varied:
+      - Arrival distribution
+      - Pipeline depth, C
+      - Number of data streams, N
+      - Context switch cost, S
+      - Offered load
+      - Schedule period, Rs
+      - Number of replications
+    - This runs in Python 3.9 and depends on the following packages:
+      numpy, scipy, simpy, psutil.
+    - To run the simulations, execute:  python run_experiments.py.
+    - It produces two CSV files:  MG1_sim.detail.csv and MG1_sim.summary.csv.
+      - The detail file contains data results for all replications and virtual
+        queues of the simulations.
+      - The summary file aggregates the replication and virtual queue data
+        across experimental runs to provide statistical information.
+  - A single simulation can be run with run_single.py.
+    - The experimental parameters can be varied in the code.
 
 * Logic Simulation (logic_simulation)
   - Three scheduling algorithms were implemented:
@@ -106,17 +127,21 @@ The data files are organized in 5 sub-directories, each described below.
       skipping an input queue if empty.
     - Capacity prioritization scheduler - This always gets the next element
       from the most full queue.  This is work-conserving.
-  - VHDL files implementing the scheduling algorithms are in the c_slow_sched_hdl folder.
-  - COE files used in Vivado for initializing input data values in a ROM for testing are in the data_set_coe_files folder.
+  - VHDL files implementing the scheduling algorithms are in the
+    c_slow_sched_hdl folder.
+  - COE files used in Vivado for initializing input data values in a ROM for
+    testing are in the data_set_coe_files folder.
   - A write-up of the logic simulation is in Final Write-Up.pdf.
   - The data set results are described below under
     alternate_scheduling_algorithms.
 
 * Data set results (datasets)
   - fpga_synthesis
-    - Contains FPGA synthesis, place, and route results for
-      the COS, AES, and SHA-2 applications.  This data is used
-      to calibrate the clock model in the Appendix.
+    - Contains FPGA synthesis, place, and route results for the COS, AES,
+      and SHA-2 applications.  This data is used to calibrate the clock model
+      in the Appendix.
+    - See the README.txt in the sub-folder for detailed descriptions of the
+      dataset.
   - virt_queueing_simulation
     - Contains virtualized hardware simulation results.  This data is used to:
       (1) validate the analytical model,
@@ -124,6 +149,8 @@ The data files are organized in 5 sub-directories, each described below.
           FIFOs, and
       (3) explore alternate arrival distribution processes to assess the
           assumption of Poisson arrivals in the analytical model.
+    - See the README.txt in the sub-folder for detailed descriptions of the
+      dataset.
   - alternate_scheduling_algorithms
     - Results for the three scheduling algorithms:
       - Round-robin scheduler (rr_sched.csv) - This is here for comparison to
@@ -140,3 +167,5 @@ The data files are organized in 5 sub-directories, each described below.
     - This data is used show performance improvement of virtualized hardware
       in terms of the mean queue occupancy by using more work-conserving
       schedulers.
+    - See the README.txt in the sub-folder for detailed descriptions of the
+      dataset.

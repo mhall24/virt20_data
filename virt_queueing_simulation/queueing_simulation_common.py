@@ -132,7 +132,10 @@ class TimeCountSeries:
     def _multiply(left_iterable, right_iterable):
         def get_segments(iterable):
             # Generator for getting each segment from an iterable.
-            t, c = next(iterable)
+            try:
+                t, c = next(iterable)
+            except StopIteration:
+                return
             for nt, nc in iterable:
                 yield t, nt, c
                 t, c = nt, nc
@@ -140,43 +143,46 @@ class TimeCountSeries:
 
         def do_multiply():
             # Do multiplication of left and right time count series.
-            seg_gen_L = get_segments(iter(left_iterable))
-            seg_gen_R = get_segments(iter(right_iterable))
+            try:
+                seg_gen_L = get_segments(iter(left_iterable))
+                seg_gen_R = get_segments(iter(right_iterable))
 
-            seg_L, seg_R = next(seg_gen_L), next(seg_gen_R)
+                seg_L, seg_R = next(seg_gen_L), next(seg_gen_R)
 
-            while True:
-                # Get segments info.
-                t1L, t2L, cL = seg_L
-                t1R, t2R, cR = seg_R
+                while True:
+                    # Get segments info.
+                    t1L, t2L, cL = seg_L
+                    t1R, t2R, cR = seg_R
 
-                if t2L <= t1R:
-                    # No overlap, L is earlier than R.
-                    seg_L = next(seg_gen_L)
-                elif t2R <= t1L:
-                    # No overlap, R is earlier than L.
-                    seg_R = next(seg_gen_R)
-                else:
-                    if t1L < t1R:
-                        # Overlap, L is earlier than R.
-                        yield t1R, cL * cR
-                    elif t1R < t1L:
-                        # Overlap, R is earlier than L.
-                        yield t1L, cL * cR
-                    else:
-                        # Overlap, L and R start at the same time.
-                        yield t1L, cL * cR
-
-                    if t2L < t2R:
-                        # L ends before R.
+                    if t2L <= t1R:
+                        # No overlap, L is earlier than R.
                         seg_L = next(seg_gen_L)
-                    elif t2R < t2L:
-                        # R ends before L.
+                    elif t2R <= t1L:
+                        # No overlap, R is earlier than L.
                         seg_R = next(seg_gen_R)
                     else:
-                        # L and R end at the same time.
-                        seg_L = next(seg_gen_L)
-                        seg_R = next(seg_gen_R)
+                        if t1L < t1R:
+                            # Overlap, L is earlier than R.
+                            yield t1R, cL * cR
+                        elif t1R < t1L:
+                            # Overlap, R is earlier than L.
+                            yield t1L, cL * cR
+                        else:
+                            # Overlap, L and R start at the same time.
+                            yield t1L, cL * cR
+
+                        if t2L < t2R:
+                            # L ends before R.
+                            seg_L = next(seg_gen_L)
+                        elif t2R < t2L:
+                            # R ends before L.
+                            seg_R = next(seg_gen_R)
+                        else:
+                            # L and R end at the same time.
+                            seg_L = next(seg_gen_L)
+                            seg_R = next(seg_gen_R)
+            except StopIteration:
+                return
 
         def do_remove_redundant(iterable):
             # Do removal of redundant segments.

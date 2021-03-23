@@ -1,4 +1,4 @@
-// Copyright 2014 by Michael J. Hall.
+// Developed by Michael J. Hall.  This is being placed in the public domain.
 
 `timescale 1ns / 1ps
 `default_nettype none

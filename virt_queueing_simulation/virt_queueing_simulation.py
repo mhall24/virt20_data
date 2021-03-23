@@ -380,7 +380,7 @@ class QueueingSystemSimulation:
     # ------------------------------------------------------------------------------------------------------------------
     def print_simulation_message(self, msg):
         """ Formatted simulation message print function. """
-        print("[%s]  %s" % (("%.2f" % self.env.now).rjust(9), msg))
+        print("[%s]  %s\n" % (("%.2f" % self.env.now).rjust(9), msg), end="")
 
 
 # ######################################################################################################################
@@ -520,8 +520,8 @@ class QueueingSystemSimulationBatch:
                         sim_detail_index))
                     num_experiments_with_replications += 1
 
-            print("%d experiments (total of %d runs) submitted to concurrent executor." %
-                  (len(experiments_info), num_experiments_with_replications))
+            print("%d experiments (total of %d runs) submitted to concurrent executor.\n" %
+                  (len(experiments_info), num_experiments_with_replications), end="")
 
             # Get results and print out as csv.
             with open(self.detail_csv_file, self.csv_file_open_mode) as f_detail, \
@@ -663,10 +663,10 @@ class QueueingSystemSimulationBatch:
                         result = f.result()
 
                         # Print processing message.
-                        print("[%d] Processing result." % sim_detail_index)
+                        print("[%d] Processing result.\n" % sim_detail_index, end="")
 
                         if result is None:
-                            print("[%d] Result is None.  Skipping." % sim_detail_index)
+                            print("[%d] Result is None.  Skipping.\n" % sim_detail_index, end="")
                             continue
 
                         # Results and calculations.
@@ -747,9 +747,9 @@ class QueueingSystemSimulationBatch:
                         stats_sim_elapsed_times.append(sim_elapsed_time)
 
                     if len(stats_exp_elapsed_times) != parameters.num_replications:
-                        print(
-                            "Skipping summary result (index %d).  The number of detailed results is %d and the number of replications is %d." %
-                            (sim_summary_index, len(stats_exp_elapsed_times), parameters.num_replications))
+                        print("Skipping summary result (index %d).  The number of detailed results is %d and the "
+                              "number of replications is %d.\n" % (
+                            sim_summary_index, len(stats_exp_elapsed_times), parameters.num_replications), end="")
                         continue
 
                     model_dicts = {
@@ -839,8 +839,8 @@ class QueueingSystemSimulationBatch:
          is independent from the rest of the class. """
 
         # Print simulation label.
-        print("[%d] Simulating N=%r, C=%r, S=%r, Rs=%r, A_dist=%r, lambd=%r, sim_clocks=%r, repl_index=%r" %
-              (sim_detail_index, N, C, S, Rs, A_dist, lambd, sim_clocks, repl_index))
+        print("[%d] Simulating N=%r, C=%r, S=%r, Rs=%r, A_dist=%r, lambd=%r, sim_clocks=%r, repl_index=%r\n" %
+              (sim_detail_index, N, C, S, Rs, A_dist, lambd, sim_clocks, repl_index), end="")
 
         experiment_timer = None
         sim_timer = None
@@ -896,8 +896,8 @@ class QueueingSystemSimulationBatch:
                     queue_stats = sim.system.stats[virt_index]
                     # Filter out unstable queues.
                     if queue_stats.total_arrivals >= 1.1 * queue_stats.total_departures:
-                        print("[%d] System is unstable.  Total arrivals is %d and total departures is %d." %
-                              (sim_detail_index, queue_stats.total_arrivals, queue_stats.total_departures))
+                        print("[%d] System is unstable.  Total arrivals is %d and total departures is %d.\n" %
+                              (sim_detail_index, queue_stats.total_arrivals, queue_stats.total_departures), end="")
                         return None
                     virt_queues.append({
                         "mean_jobs_waiting": queue_stats.jobs_waiting.mean(),
@@ -930,19 +930,19 @@ class QueueingSystemSimulationBatch:
             result["exp_elapsed_time"] = experiment_timer.elapsed_time
         except Exception:
             # Print exception message.
-            print(("[%d] Got exception:\n" % sim_detail_index) + "".join(traceback.format_exc()))
+            print("[%d] Got exception:\n%s\n" % (sim_detail_index, "".join(traceback.format_exc())), end="")
             raise
         finally:
             # Print finished label.
             if experiment_timer is not None:
                 if sim_timer is not None:
-                    print("[%d] Finished in total elapsed time %.2f s and sim elapsed time %.2f s." %
-                          (sim_detail_index, experiment_timer.elapsed_time, sim_timer.elapsed_time))
+                    print("[%d] Finished in total elapsed time %.2f s and sim elapsed time %.2f s.\n" %
+                          (sim_detail_index, experiment_timer.elapsed_time, sim_timer.elapsed_time), end="")
                 else:
-                    print("[%d] Finished in total elapsed time %.2f s." %
-                          (sim_detail_index, experiment_timer.elapsed_time))
+                    print("[%d] Finished in total elapsed time %.2f s.\n" %
+                          (sim_detail_index, experiment_timer.elapsed_time), end="")
             else:
-                print("[%d] Finished.")
+                print("[%d] Finished.\n", end="")
 
         # Return the result.
         return result
